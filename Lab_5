@@ -1,0 +1,65 @@
+/* Дана квадратна матриця порядку M. Повернути її елементи на 1) 90 2) 180; 3) 270 градусів в додатному напрямку. */
+
+
+
+using System;
+
+public class Program {
+    public static void Main() {
+        // Введення розміру квадратної матриці 
+        Console.Write("Введіть розмір квадратної матриці: ");
+        int n = int.Parse(Console.ReadLine());
+        int[,] matrix = new int[n, n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                Console.Write("Введіть елемент [" + i + ", " + j + "]: ");
+                matrix[i, j] = int.Parse(Console.ReadLine());
+            }
+        }
+
+        // Повернення матриці на 90 градусів 
+        int[,] rotatedMatrix90 = new int[n, n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                rotatedMatrix90[i, j] = matrix[n - j - 1, i];
+            }
+        }
+
+        // Повернення матриці на 180 градусів
+        int[,] rotatedMatrix180 = new int[n, n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                rotatedMatrix180[i, j] = matrix[n - i - 1, n - j - 1];
+            }
+        }
+
+        // Повернення матриці на 270 градусів 
+        int[,] rotatedMatrix270 = new int[n, n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                rotatedMatrix270[i, j] = matrix[j, n - i - 1];
+            }
+        }
+
+        // Виведення результатів
+        Console.WriteLine("Матриця:");
+        PrintMatrix(matrix);
+        Console.WriteLine("Повернута на 90 градусів:");
+        PrintMatrix(rotatedMatrix90);
+        Console.WriteLine("Повернута на 180 градусів:");
+        PrintMatrix(rotatedMatrix180);
+        Console.WriteLine("Повернута на 270 градусів:");
+        PrintMatrix(rotatedMatrix270);
+    }
+
+    // Функція для виведення матриці на екран
+    public static void PrintMatrix(int[,] matrix) {
+        int n = matrix.GetLength(0);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                Console.Write(matrix[i, j] + " ");
+            }  
+			Console.WriteLine();
+        }
+    }
+}
