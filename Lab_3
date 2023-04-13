@@ -1,0 +1,26 @@
+/* Дані координати (як цілі від 1 до 8) двох різних полів шахівниці.
+Якщо король за один хід може перейти з одного поля на інше,
+вивести логічне значення True, інакше вивести значення False.*/
+
+
+
+using System;
+
+public class Program {
+    public static void Main() {
+        
+        Console.Write("Введіть координати першого поля (стовпець рядок): ");
+        int firstColumn = int.Parse(Console.ReadLine());
+        int firstRow = int.Parse(Console.ReadLine());
+
+        Console.Write("Введіть координати другого поля (стовпець рядок): ");
+        int secondColumn = int.Parse(Console.ReadLine());
+        int secondRow = int.Parse(Console.ReadLine());
+
+
+        bool canKingMove = Math.Abs(firstColumn - secondColumn) <= 1 && Math.Abs(firstRow - secondRow) <= 1;
+
+   
+        Console.WriteLine("Можливість переходу короля: " + canKingMove);
+    }
+}
