@@ -1,0 +1,150 @@
+using System;
+
+public class Program
+{
+    public static void Main()
+    {
+        // Задача 1: Виведення числа у зворотному порядку
+        int num = 1234;
+        Console.WriteLine("Reverse of {0} is {1}", num, ReverseNumber(num));
+
+        // Задача 2: Виведення рядка у зворотному порядку
+        string str = "ABC";
+        Console.WriteLine("Reverse of {0} is {1}", str, ReverseString(str));
+
+        // Задача 3: Виведення дійсного числа у зворотному порядку
+        double dbl = 123.456;
+        Console.WriteLine("Reverse of {0} is {1}", dbl, ReverseDouble(dbl));
+
+        // Задача 4: Виведення рядка у зворотному порядку зі зміною після "магічного знаку"
+        string input = "abc,def";
+		char separator = ',';
+		string reversed = ReverseStringAfterChar(input, separator);
+		Console.WriteLine(reversed); 
+		
+        // Задача 5: Виведення числа у зворотному порядку за допомогою рекурсії
+        int num2 = 1234;
+        Console.WriteLine("Reverse of {0} is {1}", num2, ReverseNumberRecursive(num2));
+
+        // Задача 6: Виведення рядка у зворотному порядку за допомогою рекурсії
+        string str3 = "ABC";
+        Console.WriteLine("Reverse of {0} is {1}", str3, ReverseStringRecursive(str3));
+
+        // Задача 7: Масив у зворотному порядку без використання Array.Reverse()
+        int[] arr = { 1, 2, 3, 4, 5 };
+        Console.Write("Original array: ");
+        PrintArray(arr);
+        ReverseArray(arr);
+        Console.Write("Reversed array: ");
+        PrintArray(arr);
+
+        // Задача 8: Зміна довжини масиву з використанням ref i out
+        int[] arr2 = { 1, 2, 3, 4, 5 };
+        Console.Write("Original array: ");
+        PrintArray(arr2);
+        ResizeArray(ref arr2, 3);
+        Console.Write("Resized array: ");
+        PrintArray(arr2);
+    }
+
+    // Задача 1: Виведення числа у зворотному порядку
+    public static int ReverseNumber(int num)
+    {
+        int reversed = 0;
+        while (num > 0)
+        {
+            reversed = (reversed * 10) + (num % 10);
+            num /= 10;
+        }
+        return reversed;
+    }
+
+    // Задача 2: Виведення рядка у зворотному порядку
+    public static string ReverseString(string str)
+    {
+        char[] arr = str.ToCharArray();
+        Array.Reverse(arr);
+        return new string(arr);
+    }
+
+    // Задача 3: Виведення дробового числа у зворотному порядку
+    public static double ReverseDouble(double d)
+    {
+        string str = d.ToString();
+        char[] arr = str.ToCharArray();
+        Array.Reverse(arr);
+        string reversed = new string(arr);
+        return double.Parse(reversed);
+    }
+
+    // Задача 4: Виведення рядка у зворотному порядку зі зміною після "магічного знаку"
+    public static string ReverseStringAfterChar(string str, char separator)
+{
+    int separatorIndex = str.IndexOf(separator);
+    if (separatorIndex == -1) // Якщо розділювач не знайдено
+    {
+        return str;
+    }
+    else // Якщо розділювач знайдено
+    {
+        string firstPart = str.Substring(0, separatorIndex);
+        string secondPart = str.Substring(separatorIndex + 1);
+        char[] chars = secondPart.ToCharArray();
+        Array.Reverse(chars);
+        secondPart = new string(chars);
+        return firstPart + separator + secondPart;
+    }
+} 
+	
+// Задача 5: Виведення числа у зворотному порядку за допомогою рекурсії
+    public static int ReverseNumberRecursive(int num, int reversed = 0)
+    {
+        if (num == 0)
+            return reversed;
+        return ReverseNumberRecursive(num / 10, (reversed * 10) + (num % 10));
+    }
+
+    // Задача 6: Виведення рядка у зворотному порядку за допомогою рекурсії
+    public static string ReverseStringRecursive(string str)
+    {
+        if (str.Length <= 1)
+            return str;
+        return ReverseStringRecursive(str.Substring(1)) + str[0];
+    }
+
+    // Задача 7: Масив у зворотному порядку без використання Array.Reverse()
+    public static void ReverseArray(int[] arr)
+    {
+        int n = arr.Length;
+        for (int i = 0; i < n / 2; i++)
+        {
+            int temp = arr[i];
+            arr[i] = arr[n - i - 1];
+            arr[n - i - 1] = temp;
+        }
+    }
+
+    // Задача 8: Зміна довжини масиву з використанням ref i out
+    public static void ResizeArray(ref int[] arr, int newSize)
+    {
+        int[] newArr = new int[newSize];
+        for (int i = 0; i < Math.Min(arr.Length, newSize); i++)
+        {
+            newArr[i] = arr[i];
+        }
+        arr = newArr;
+    }
+
+    // Виведення масиву на екран
+    public static void PrintArray(int[] arr)
+    {
+        Console.Write("[");
+        for (int i = 0; i < arr.Length; i++)
+        {
+            Console.Write(arr[i]);
+            if (i < arr.Length - 1)
+                Console.Write(", ");
+        }
+        Console.WriteLine("]");
+    }
+}
