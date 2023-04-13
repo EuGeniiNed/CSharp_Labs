@@ -1,0 +1,47 @@
+/* 6. Створити ліст інтових змінних, який може вміщати тільки 1 і 0, заповнити його з клавіатури. Порахувати кількість 1 і 0. Скопіювати отриманий ліст в масив.*/
+
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    public static void Main()
+    {
+        List<int> list = new List<int>();
+        Console.WriteLine("Введіть послідовність 1 і 0, для завершення введення введіть -1:");
+        int input = 0;
+        while (input != -1)
+        {
+            if (int.TryParse(Console.ReadLine(), out input) && (input == 0 || input == 1))
+            {
+                list.Add(input);
+            }
+            else
+            {
+                Console.WriteLine("Введене значення не є 0 або 1, або не є цілим числом.");
+            }
+        }
+        int countZeros = 0;
+        int countOnes = 0;
+        foreach (int item in list)
+        {
+            if (item == 0)
+            {
+                countZeros++;
+            }
+            else
+            {
+                countOnes++;
+            }
+        }
+        Console.WriteLine("Кількість 0: {0}", countZeros);
+        Console.WriteLine("Кількість 1: {0}", countOnes);
+
+        int[] array = list.ToArray();
+        Console.WriteLine("Масив, отриманий зі списку:");
+        for (int i = 0; i < array.Length; i++)
+        {
+            Console.Write(array[i] + " ");
+        }
+    }
+}
