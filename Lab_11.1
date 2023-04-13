@@ -1,0 +1,107 @@
+/* Створити клас Лікарня. Створити клас Пацієнт, додати в нього властивості типу bool: МРТ пройдено, КТ пройдено,
+Рентген пройдено, обслідування у ЛОР пройдено, УЗІ пройдено, ревмо-проби пройдено. 
+Створити наступні методи в класі Лікарня: МРТ, КТ, Рентген, обслідування у ЛОР, УЗІ, ревмо-проби.
+Всі методи приймають екземпляр класу Пацієнт і проставляють значенням true відповідні властивості екземпляру класу. 
+Створити комбіновані делегати, які будуть виконувати весь, або частину функціоналу.
+Реалізувати можливість виводу значень всіх властивостей на екрану вигляді: Назва Властивості -- Значення */
+
+using System;
+
+public class Patient
+{
+    public bool MRTPassed { get; set; }
+    public bool CTPassed { get; set; }
+    public bool XRayPassed { get; set; }
+    public bool LORExamPassed { get; set; }
+    public bool UltrasoundPassed { get; set; }
+    public bool RheumatismTestPassed { get; set; }
+}
+
+public class Hospital
+{
+    public delegate void ExamDelegate(Patient patient);
+
+    public ExamDelegate MRT;
+    public ExamDelegate CT;
+    public ExamDelegate XRay;
+    public ExamDelegate LORExam;
+    public ExamDelegate Ultrasound;
+    public ExamDelegate RheumatismTest;
+
+    public void PerformMRT(Patient patient)
+    {
+        patient.MRTPassed = true;
+    }
+
+    public void PerformCT(Patient patient)
+    {
+        patient.CTPassed = true;
+    }
+
+    public void PerformXRay(Patient patient)
+    {
+        patient.XRayPassed = true;
+    }
+
+    public void PerformLORExam(Patient patient)
+    {
+        patient.LORExamPassed = true;
+    }
+
+    public void PerformUltrasound(Patient patient)
+    {
+        patient.UltrasoundPassed = true;
+    }
+
+    public void PerformRheumatismTest(Patient patient)
+    {
+        patient.RheumatismTestPassed = true;
+    }
+
+    public void PerformAllExams(Patient patient)
+    {
+        MRT(patient);
+        CT(patient);
+        XRay(patient);
+        LORExam(patient);
+        Ultrasound(patient);
+        RheumatismTest(patient);
+    }
+
+    public void PerformBasicExams(Patient patient)
+    {
+        MRT(patient);
+        CT(patient);
+        XRay(patient);
+    }
+
+    public void PrintPatientInfo(Patient patient)
+    {
+        Console.WriteLine("Patient information:");
+        Console.WriteLine("MRT passed: " + patient.MRTPassed);
+        Console.WriteLine("CT passed: " + patient.CTPassed);
+        Console.WriteLine("X-ray passed: " + patient.XRayPassed);
+        Console.WriteLine("LORExam passed: " + patient.LORExamPassed);
+        Console.WriteLine("Ultrasound passed: " + patient.UltrasoundPassed);
+        Console.WriteLine("Rheumatism test passed: " + patient.RheumatismTestPassed);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Patient patient1 = new Patient();
+        Hospital hospital = new Hospital();
+
+        hospital.MRT = hospital.PerformMRT;
+        hospital.CT = hospital.PerformCT;
+        hospital.XRay = hospital.PerformXRay;
+        hospital.LORExam = hospital.PerformLORExam;
+        hospital.Ultrasound = hospital.PerformUltrasound;
+        hospital.RheumatismTest = hospital.PerformRheumatismTest;
+
+        hospital.PerformBasicExams(patient1);
+        hospital.PrintPatientInfo(patient1);
+    }
+}
