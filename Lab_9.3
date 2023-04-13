@@ -1,0 +1,104 @@
+using System;
+using System.Collections.Generic;
+
+namespace Shapes
+{
+    interface IDraw
+    {
+        void Draw();
+    }
+
+    class Square : Shape, IDraw
+    {
+        //...
+
+        public void Draw()
+        {
+            Console.WriteLine($"Square: side length = {SideLength}, area = {CalculateArea()}, perimeter = {CalculatePerimeter()}");
+        }
+    }
+
+    class Circle : Shape, IDraw
+    {
+        //...
+
+        public void Draw()
+        {
+            Console.WriteLine($"Circle: radius = {Radius}, area = {CalculateArea()}, circumference = {CalculatePerimeter()}");
+        }
+    }
+
+    class Triangle : Shape, IDraw
+    {
+        //...
+
+        public void Draw()
+        {
+            Console.WriteLine($"Triangle: side length = {SideLength}, area = {CalculateArea()}, perimeter = {CalculatePerimeter()}");
+        }
+    }
+
+    class Picture : IDraw
+    {
+        private List<Shape> shapes;
+
+        public Picture()
+        {
+            shapes = new List<Shape>();
+        }
+
+        public Picture(int size)
+        {
+            shapes = new List<Shape>(size);
+        }
+
+        public void AddShape(Shape shape)
+        {
+            shapes.Add(shape);
+        }
+
+        public void RemoveShape(string name)
+        {
+            shapes.RemoveAll(shape => shape.Name == name);
+        }
+
+        public void RemoveShape(Type type)
+        {
+            shapes.RemoveAll(shape => shape.GetType() == type);
+        }
+
+        public void RemoveShapesGreaterThanArea(double area)
+        {
+            shapes.RemoveAll(shape => shape.CalculateArea() > area);
+        }
+
+        public int Count
+        {
+            get { return shapes.Count; }
+        }
+
+        public Shape this[int index]
+        {
+            get { return shapes[index]; }
+        }
+
+        public void Draw()
+        {
+            foreach (Shape shape in shapes)
+            {
+                if (shape is IDraw drawableShape)
+                {
+                    drawableShape.Draw();
+                }
+            }
+        }
+    }
+
+    class Painter
+    {
+        public static void Draw(IDraw drawable)
+        {
+            drawable.Draw();
+        }
+    }
+}
