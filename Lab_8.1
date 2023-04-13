@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+
+class Garage
+{
+    private List<Car> cars = new List<Car>();
+
+    public void AddCar(Car car)
+    {
+        cars.Add(car);
+    }
+
+    public void RemoveCar(Car car)
+    {
+        cars.Remove(car);
+    }
+
+    public List<Car> FindCars(string name = null, string color = null, int? speed = null, int? year = null)
+    {
+        List<Car> matchingCars = new List<Car>();
+
+        foreach (Car car in cars)
+        {
+            if ((name == null || car.Name == name) &&
+                (color == null || car.Color == color) &&
+                (!speed.HasValue || car.Speed == speed.Value) &&
+                (!year.HasValue || car.Year == year.Value))
+            {
+                matchingCars.Add(car);
+            }
+        }
+
+        return matchingCars;
+    }
+}
+
+class Car
+{
+    public string Name { get; set; }
+    public string Color { get; set; }
+    public int Speed { get; set; }
+    public int Year { get; set; }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Garage garage = new Garage();
+
+        // Додавання автомобілів в гараж
+        garage.AddCar(new Car { Name = "Ferrari", Color = "Red", Speed = 200, Year = 2010 });
+        garage.AddCar(new Car { Name = "Lamborghini", Color = "Yellow", Speed = 250, Year = 2015 });
+        garage.AddCar(new Car { Name = "Bugatti", Color = "Blue", Speed = 300, Year = 2020 });
+
+        // Пошук автомобілів за різними параметрами
+        List<Car> redCars = garage.FindCars(color: "Red");
+        List<Car> fastCars = garage.FindCars(speed: 250);
+        List<Car> oldCars = garage.FindCars(year: 2010);
+        List<Car> ferraris = garage.FindCars(name: "Ferrari");
+    }
+}
