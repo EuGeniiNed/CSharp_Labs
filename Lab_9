@@ -1,0 +1,132 @@
+using System;
+
+public abstract class Shape
+{
+    public string Color { get; set; }
+    public abstract int NumberOfVertices { get; }
+    public string Name { get; }
+    public abstract double CalculateArea();
+    public abstract double CalculatePerimeter();
+
+    protected Shape(string name, string color)
+    {
+        Name = name;
+        Color = color;
+    }
+}
+
+public class Square : Shape
+{
+    private int sideLength;
+
+    public Square(string name, int sideLength) : base(name, "Black")
+    {
+        this.sideLength = sideLength;
+    }
+
+    public Square(string name, int sideLength, string color) : base(name, color)
+    {
+        this.sideLength = sideLength;
+    }
+
+    public override int NumberOfVertices => 4;
+
+    public override double CalculateArea()
+    {
+        return sideLength * sideLength;
+    }
+
+    public override double CalculatePerimeter()
+    {
+        return 4 * sideLength;
+    }
+}
+
+public class Circle : Shape
+{
+    private int radius;
+
+    public Circle(string name, int radius) : base(name, "Black")
+    {
+        this.radius = radius;
+    }
+
+    public Circle(string name, int radius, string color) : base(name, color)
+    {
+        this.radius = radius;
+    }
+
+    public override int NumberOfVertices => 0;
+
+    public override double CalculateArea()
+    {
+        return Math.PI * radius * radius;
+    }
+
+    public override double CalculatePerimeter()
+    {
+        return 2 * Math.PI * radius;
+    }
+}
+
+public class Triangle : Shape
+{
+    private int sideLength;
+
+    public Triangle(string name, int sideLength) : base(name, "Black")
+    {
+        this.sideLength = sideLength;
+    }
+
+    public Triangle(string name, int sideLength, string color) : base(name, color)
+    {
+        this.sideLength = sideLength;
+    }
+
+    public override int NumberOfVertices => 3;
+
+    public override double CalculateArea()
+    {
+        return (Math.Sqrt(3) / 4) * sideLength * sideLength;
+    }
+
+    public override double CalculatePerimeter()
+    {
+        return 3 * sideLength;
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Створення квадрата зі стороною 5
+        Square square = new Square("My Square", 5);
+
+        Console.WriteLine("Shape Name: {0}", square.Name);
+        Console.WriteLine("Number of Vertices: {0}", square.NumberOfVertices);
+        Console.WriteLine("Color: {0}", square.Color);
+        Console.WriteLine("Area: {0}", square.CalculateArea());
+        Console.WriteLine("Perimeter: {0}", square.CalculatePerimeter());
+        Console.WriteLine();
+
+        // Створення кола з радіусом 3
+        Circle circle = new Circle("My Circle", 3);
+
+        Console.WriteLine("Shape Name: {0}", circle.Name);
+        Console.WriteLine("Number of Vertices: {0}", circle.NumberOfVertices);
+        Console.WriteLine("Color: {0}", circle.Color);
+        Console.WriteLine("Area: {0}", circle.CalculateArea());
+        Console.WriteLine("Perimeter: {0}", circle.CalculatePerimeter());
+        Console.WriteLine();
+		 // Створення рівнобедренного трикутника зі стороною 4
+		Triangle triangle = new Triangle("My Triangle", 4);
+		Console.WriteLine("Shape Name: {0}", triangle.Name);
+		Console.WriteLine("Number of Vertices: {0}", triangle.NumberOfVertices);
+		Console.WriteLine("Color: {0}", triangle.Color);
+		Console.WriteLine("Area: {0}", triangle.CalculateArea());
+		Console.WriteLine("Perimeter: {0}", triangle.CalculatePerimeter());
+		Console.WriteLine();
+
+	}
+}
