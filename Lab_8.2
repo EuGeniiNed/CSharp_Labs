@@ -1,0 +1,147 @@
+using System;
+
+class DiskPhone
+{
+    public string PhoneNumber { get; set; }
+    public char[] AvailableSymbols { get; set; }
+
+    public void MakeCall()
+    {
+        Console.WriteLine("Dialing " + PhoneNumber + "...");
+    }
+
+    public void ReceiveCall()
+    {
+        Console.WriteLine("Incoming call...");
+    }
+}
+
+class ButtonPhone : DiskPhone
+{
+    public new char[] AvailableSymbols
+    {
+        get
+        {
+            char[] symbols = base.AvailableSymbols;
+            Array.Resize(ref symbols, symbols.Length + 2);
+            symbols[symbols.Length - 2] = '*';
+            symbols[symbols.Length - 1] = '#';
+            return symbols;
+        }
+        set
+        {
+            base.AvailableSymbols = value;
+        }
+    }
+
+    public void DisplayCallerId(string callerId)
+    {
+        Console.WriteLine("Incoming call from " + callerId);
+    }
+}
+
+class MobilePhone : ButtonPhone
+{
+    public int ScreenResolution { get; set; }
+    public double ScreenSize { get; set; }
+    public string Color { get; set; }
+
+    public void SendSMS()
+    {
+        Console.WriteLine("Sending SMS...");
+    }
+
+    public void ReceiveSMS()
+    {
+        Console.WriteLine("Incoming SMS...");
+    }
+}
+
+class ColorMobilePhone : MobilePhone
+{
+    public int ColorCount { get; set; }
+    public bool DualSim { get; set; }
+    public string SecondPhoneNumber { get; set; }
+
+    public void SendMMS()
+    {
+        Console.WriteLine("Sending MMS...");
+    }
+
+    public void ReceiveMMS()
+    {
+        Console.WriteLine("Incoming MMS...");
+    }
+}
+
+class Smartphone : ColorMobilePhone
+{
+    public bool TouchScreen { get; set; }
+    public int MaxMultiTouchCount { get; set; }
+    public int CameraCount { get; set; }
+
+    public void TakePhoto()
+    {
+        Console.WriteLine("Taking a photo...");
+    }
+
+    public void RecordVideo()
+    {
+        Console.WriteLine("Recording a video...");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Створення дискового телефону
+        DiskPhone diskPhone = new DiskPhone();
+        diskPhone.PhoneNumber = "123456789";
+        diskPhone.AvailableSymbols = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        diskPhone.MakeCall();
+
+        // Створення кнопочного телефону
+        ButtonPhone buttonPhone = new ButtonPhone();
+        buttonPhone.PhoneNumber = "987654321";
+        buttonPhone.AvailableSymbols = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        buttonPhone.DisplayCallerId("John Doe");
+
+        // Створення мобільного телефону з чорно-білим екраном
+        MobilePhone mobilePhone = new MobilePhone();
+        mobilePhone.PhoneNumber = "555444333";
+        mobilePhone.AvailableSymbols = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#' };
+        mobilePhone.ScreenResolution = 720;
+        mobilePhone.ScreenSize = 5.0;
+        mobilePhone.Color = "Black";
+        mobilePhone.SendSMS();
+
+        // Створення мобільного телефону з кольоровим екраном
+          ColorMobilePhone colorMobilePhone = new ColorMobilePhone();
+          colorMobilePhone.PhoneNumber = "111222333";
+          colorMobilePhone.AvailableSymbols = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#' };
+          colorMobilePhone.ScreenResolution = 1080;
+          colorMobilePhone.ScreenSize = 6.0;
+          colorMobilePhone.Color = "Blue";
+          colorMobilePhone.ColorCount = 16777216;
+          colorMobilePhone.DualSim = true;
+          colorMobilePhone.SecondPhoneNumber = "999888777";
+          colorMobilePhone.SendMMS();
+
+          // Створення смартфону
+          Smartphone smartphone = new Smartphone();
+          smartphone.PhoneNumber = "777777777";
+          smartphone.AvailableSymbols = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '#' };
+          smartphone.ScreenResolution = 2160;
+          smartphone.ScreenSize = 6.5;
+          smartphone.Color = "Red";
+          smartphone.ColorCount = 16777216;
+          smartphone.DualSim = true;
+          smartphone.SecondPhoneNumber = "111111111";
+          smartphone.TouchScreen = true;
+          smartphone.MaxMultiTouchCount = 10;
+          smartphone.CameraCount = 3;
+          smartphone.TakePhoto();
+          smartphone.RecordVideo();
+	}
+}
