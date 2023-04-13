@@ -1,0 +1,39 @@
+/* Дано дійсне число R і масив розміру N. Знайти два елементи масиву, сума яких найближча (найдальша) від даного числа. */
+
+using System;
+
+public class Program {
+    public static void Main() {
+        Console.Write("Введіть ціле число R: ");
+        int R = int.Parse(Console.ReadLine());
+
+        // Введення розміру масиву N та його елементів
+        Console.Write("Введіть розмір масиву N: ");
+        int N = int.Parse(Console.ReadLine());
+        int[] array = new int[N];
+        for (int i = 0; i < N; i++) {
+            Console.Write("Введіть " + (i + 1) + "-й елемент масиву: ");
+            array[i] = int.Parse(Console.ReadLine());
+        }
+
+        // Пошук двох елементів масиву 
+        int closestSum = int.MaxValue;
+        int firstElement = 0;
+        int secondElement = 0;
+
+        for (int i = 0; i < N; i++) {
+            for (int j = i + 1; j < N; j++) {
+                int sum = array[i] + array[j];
+                if (Math.Abs(R - sum) < Math.Abs(R - closestSum)) {
+                    closestSum = sum;
+                    firstElement = array[i];
+                    secondElement = array[j];
+                }
+            }
+        }
+
+        Console.WriteLine("Найдальша до R сума елементів масиву: " + closestSum);
+        Console.WriteLine("Перший елемент: " + firstElement);
+        Console.WriteLine("Другий елемент: " + secondElement);
+    }
+}
