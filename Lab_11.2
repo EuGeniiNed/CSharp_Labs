@@ -1,0 +1,114 @@
+using System;
+using System.Collections.Generic;
+
+// Статичний клас Extension
+public static class Extension
+{
+    // Тип делегату для предиката студента
+    public delegate bool StudentPredicateDelegate(Student student);
+
+    // Метод розширення для пошуку студентів, що задовольняють умову, задану делегатом
+    public static List<Student> FindStudent(this List<Student> students, StudentPredicateDelegate predicate)
+    {
+        List<Student> result = new List<Student>();
+        foreach (Student student in students)
+        {
+            // Якщо умова виконується для поточного студента, додати його до списку результатів
+            if (predicate(student))
+            {
+                result.Add(student);
+            }
+        }
+        return result;
+    }
+}
+
+// Клас студента
+public class Student
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+
+    // Статичні методи, що використовуються як предикати для пошуку студентів
+    public static bool IsAdult(Student student)
+    {
+        return student.Age >= 18;
+    }
+
+    public static bool FirstNameStartsWithA(Student student)
+    {
+        return student.FirstName.StartsWith("A");
+    }
+
+    public static bool LastNameIsLongerThanThree(Student student)
+    {
+        return student.LastName.Length > 3;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // Створити список студентів
+        List<Student> students = new List<Student>()
+        {
+            new Student { FirstName = "Andrew", LastName = "Troelsen", Age = 28 },
+            new Student { FirstName = "John", LastName = "Doe", Age = 19 },
+            new Student { FirstName = "Alice", LastName = "Smith", Age = 21 },
+            new Student { FirstName = "Bob", LastName = "Jones", Age = 25 },
+            new Student { FirstName = "Adam", LastName = "Johnson", Age = 22 },
+            new Student { FirstName = "Eve", LastName = "Green", Age = 17 },
+            new Student { FirstName = "Anna", LastName = "Brown", Age = 20 },
+            new Student { FirstName = "Peter", LastName = "Lee", Age = 23 },
+            new Student { FirstName = "Alex", LastName = "Kim", Age = 24 },
+            new Student { FirstName = "Laura", LastName = "Davis", Age = 18 }
+        };
+
+        // 8. Знайти студентів, які є дорослими
+        Console.WriteLine("Студенти, які є дорослими:");
+        List<Student> adults = students.FindStudent(Student.IsAdult);
+        foreach (Student student in adults)
+        {
+            Console.WriteLine(student.FirstName + " " + student.LastName);
+        }
+        Console.WriteLine();
+
+        // 9. Знайти студентів, чиє ім'я починається на літеру "А"
+        Console.WriteLine("Студенти, чиє ім'я починається на літеру 'А':");
+    List<Student> startsWithA = students.FindStudent(Student.FirstNameStartsWithA);
+    foreach (Student student in startsWithA)
+    {
+        Console.WriteLine(student.FirstName + " " + student.LastName);
+    }
+    Console.WriteLine();
+
+    // 10. Знайти студентів, вік яких знаходиться в межах від 20 до 25 років
+    Console.WriteLine("Студенти, вік яких знаходиться в межах від 20 до 25 років:");
+    List<Student> ageBetween20And25 = students.FindStudent(student => student.Age >= 20 && student.Age <= 25);
+    foreach (Student student in ageBetween20And25)
+    {
+        Console.WriteLine(student.FirstName + " " + student.LastName);
+    }
+    Console.WriteLine();
+
+    // 11. Знайти студентів, яких звуть "Andrew"
+    Console.WriteLine("Студенти, яких звуть 'Andrew':");
+    List<Student> andrews = students.FindStudent(student => student.FirstName == "Andrew");
+    foreach (Student student in andrews)
+    {
+        Console.WriteLine(student.FirstName + " " + student.LastName);
+    }
+    Console.WriteLine();
+
+    // 12. Знайти студентів, чиє прізвище "Troelsen"
+    Console.WriteLine("Студенти, чиє прізвище 'Troelsen':");
+    List<Student> troelsens = students.FindStudent(student => student.LastName == "Troelsen");
+    foreach (Student student in troelsens)
+    {
+        Console.WriteLine(student.FirstName + " " + student.LastName);
+    }
+    Console.WriteLine();
+}
+}
